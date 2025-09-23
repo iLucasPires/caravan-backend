@@ -12,6 +12,7 @@ dependencies = [
     "djangorestframework>=3.16.1",
     "djoser>=2.3.3",
     "drf-spectacular>=0.28.0",
+    "gunicorn>=23.0.0",
     "markdown>=3.9",
     "psycopg[binary,pool]>=3.2.10",
 ]
@@ -23,6 +24,21 @@ dev = [
     "ruff>=0.13.1",
     "taskipy>=1.14.1",
 ]
+
 [tool.taskipy.tasks]
+manage = "python manage.py"
+server = "python manage.py runserver"
+migrate = "python manage.py migrate"
+makemigrations = "python manage.py makemigrations"
+
+wsgi = "gunicorn backend.wsgi:application --bind 0.0.0.0:8000"
+
+format = "ruff format src tests"
+check = "ruff check src tests"
+
 test = "pytest --confcutdir=src"
-lint = "ruff check; ruff format"
+test-coverage = "pytest --confcutdir=src --cov=src --cov-report=term-missing"
+
+[tool.pytest.ini_options]
+python_files = ["test/domain/**/test_*.py"]
+DJANGO_SETTINGS_MODULE = "src.config.settings"

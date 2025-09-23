@@ -6,12 +6,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent.parent
 ###############################################################################
 # Environment
 ###############################################################################
-env_file = BASE_DIR / ".env"
-
 env = Env()
-
 env.read_env(
-    env_file=env_file,
+    env_file=BASE_DIR / ".env",
     overwrite=True,
     overrides=True,
     encoding="utf8",
@@ -33,8 +30,9 @@ CORS_ALLOWED_ORIGINS = env("DJANGO_CORS_ALLOWED_ORIGINS", cast=list)
 
 CSRF_TRUSTED_ORIGINS = env("DJANGO_CSRF_TRUSTED_ORIGINS", cast=list)
 
-SIMPLE_JWT = {"AUTH_HEADER_TYPES": ("Bearer",)}
-
+SIMPLE_JWT = {
+    "AUTH_HEADER_TYPES": ("Bearer",),
+}
 
 ###############################################################################
 # Internationalization
@@ -48,7 +46,6 @@ USE_I18N = True
 USE_L10N = True
 
 USE_TZ = True
-
 
 ###############################################################################
 # Application
@@ -83,7 +80,6 @@ INSTALLED_APPS = [
     *THIRD_PARTY_APPS,
 ]
 
-
 ###############################################################################
 # Middleware
 ###############################################################################
@@ -97,7 +93,6 @@ MIDDLEWARE = [
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
-
 
 ###############################################################################
 # Template
@@ -130,7 +125,7 @@ DATABASES = {
         "USER": env("POSTGRES_USER"),
         "PASSWORD": env("POSTGRES_PASSWORD"),
         "HOST": env("POSTGRES_HOST"),
-        "PORT": 5432,
+        "PORT": env("POSTGRES_POST"),
     }
 }
 
@@ -164,7 +159,6 @@ TASKS = {
     }
 }
 
-
 ###############################################################################
 # Storage
 ###############################################################################
@@ -172,10 +166,10 @@ STORAGES = {
     "default": {
         "BACKEND": "storages.backends.s3.S3Storage",
         "OPTIONS": {
-            "access_key": env("MINIO_ROOT_USER"),
-            "secret_key": env("MINIO_ROOT_PASSWORD"),
-            "endpoint_url": env("MINIO_URL"),
-            "bucket_name": env("MINIO_BUCKET_NAME"),
+            "access_key": env("S3_ROOT_USER"),
+            "secret_key": env("S3_ROOT_PASSWORD"),
+            "endpoint_url": env("S3_URL"),
+            "bucket_name": env("S3_BUCKET_NAME"),
             "signature_version": "s3v4",
         },
     },
