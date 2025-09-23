@@ -8,11 +8,11 @@ from app.shared.models.timestamped import AbstractTimeStamped
 
 class Event(AbstractTimeStamped, AbstractDescribable):
     @property
-    def location(self) -> "EventLocation" | None:
+    def location(self) -> EventLocation | None:
         return self.locations.first()
 
     @property
-    def schedules(self) -> list["EventSchedule"] | None:
+    def schedules(self) -> list[EventSchedule] | None:
         return self.schedules.all()
 
 

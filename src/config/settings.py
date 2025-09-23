@@ -54,6 +54,7 @@ LOCAL_APPS = [
     "app.domain.caravan",
     "app.domain.event",
     "app.domain.payment",
+    "app.domain.vehicle",
     "app.domain.user",
 ]
 

@@ -2,7 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 
 from app.domain.event.models import Event
-from app.domain.vehicle.models import Verhicle
+from app.domain.vehicle.models import Vehicle
 
 from app.shared.models.describable import AbstractDescribable
 from app.shared.models.location import AbstractLocation
@@ -18,14 +18,14 @@ class Caravan(AbstractDescribable, AbstractTimeStamped):
     )
 
     vehicle = models.ForeignKey(
-        to=Verhicle,
+        to=Vehicle,
         on_delete=models.CASCADE,
         related_name="caravans",
         help_text="Vehicle used for the caravan",
     )
 
     @property
-    def stops(self) -> list["CaravanStop"] | None:
+    def stops(self) -> list[CaravanStop] | None:
         return self.stops.all().order_by("time")
 
 

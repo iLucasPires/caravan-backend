@@ -1,11 +1,11 @@
 from django.db import models
 from django.contrib.auth.models import User
 
-from app.shared.models.timestamped import TimestampedModel
-from app.shared.models.describable import DescribableModel
+from app.shared.models.timestamped import AbstractTimeStamped
+from app.shared.models.describable import AbstractDescribable
 
 
-class Vehicle(TimestampedModel, DescribableModel):
+class Vehicle(AbstractTimeStamped, AbstractDescribable):
     class Type(models.IntegerChoices):
         CAR = 1, "Car"
         TRUCK = 2, "Truck"
@@ -37,7 +37,7 @@ class Vehicle(TimestampedModel, DescribableModel):
     )
 
 
-class VehicleLog(TimestampedModel):
+class VehicleLog(AbstractTimeStamped):
     message = models.TextField(
         blank=True,
         null=True,
@@ -52,7 +52,7 @@ class VehicleLog(TimestampedModel):
     )
 
 
-class VehicleAssignment(TimestampedModel):
+class VehicleAssignment(AbstractTimeStamped):
     class Role(models.IntegerChoices):
         DRIVER = 1, "Driver"
         NAVIGATOR = 2, "Navigator"

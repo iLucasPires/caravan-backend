@@ -3,7 +3,7 @@ name = "backend"
 version = "0.1.0"
 description = "Add your description here"
 readme = "README.md"
-requires-python = ">=3.12"
+requires-python = ">=3.14"
 dependencies = [
     "django>=6.0a1",
     "django-cors-headers>=4.9.0",
@@ -11,6 +11,7 @@ dependencies = [
     "django-filter>=25.1",
     "djangorestframework>=3.16.1",
     "djoser>=2.3.3",
+    "drf-nested-routers>=0.95.0",
     "drf-spectacular>=0.28.0",
     "gunicorn>=23.0.0",
     "markdown>=3.9",
@@ -26,19 +27,21 @@ dev = [
 ]
 
 [tool.taskipy.tasks]
-manage = "python manage.py"
-server = "python manage.py runserver"
-migrate = "python manage.py migrate"
-makemigrations = "python manage.py makemigrations"
+manage = "python src/manage.py"
+server = "python src/manage.py runserver"
+migrate = "python src/manage.py migrate"
+makemigrations = "python src/manage.py makemigrations"
 
 wsgi = "gunicorn backend.wsgi:application --bind 0.0.0.0:8000"
 
 format = "ruff format src tests"
 check = "ruff check src tests"
 
-test = "pytest --confcutdir=src"
-test-coverage = "pytest --confcutdir=src --cov=src --cov-report=term-missing"
+test = "pytest"
 
 [tool.pytest.ini_options]
-python_files = ["test/domain/**/test_*.py"]
-DJANGO_SETTINGS_MODULE = "src.config.settings"
+pythonpath = ["src"]
+testpaths = ["test"]
+python_files = ["test_*.py"]
+
+DJANGO_SETTINGS_MODULE = "config.settings"
