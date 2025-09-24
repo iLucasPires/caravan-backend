@@ -1,11 +1,12 @@
-import factory
+from factory import Faker
+from factory.django import DjangoModelFactory
 
 from app.domain.event.models import Event
 
 
-class EventFactory(factory.django.DjangoModelFactory):
-    name = factory.Faker("name")
-    description = factory.Faker("text")
+class EventFactory(DjangoModelFactory):
+    name = Faker("name")
+    description = Faker("text")
 
     class Meta:
         model = Event

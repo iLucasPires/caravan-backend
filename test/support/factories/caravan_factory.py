@@ -1,5 +1,5 @@
-import factory
-from django.utils import timezone
+from factory import Faker, SubFactory, Iterator
+from factory.django import DjangoModelFactory
 
 from app.domain.caravan.models import (
     Caravan,
@@ -13,42 +13,42 @@ from support.factories.event_factory import EventFactory
 from support.factories.vehicle_factory import VehicleFactory
 
 
-class CaravanFactory(factory.django.DjangoModelFactory):
-    name = factory.Faker("name")
-    description = factory.Faker("text")
-    event = factory.SubFactory(EventFactory)
-    vehicle = factory.SubFactory(VehicleFactory)
+class CaravanFactory(DjangoModelFactory):
+    name = Faker("name")
+    description = Faker("text")
+    event = SubFactory(EventFactory)
+    vehicle = SubFactory(VehicleFactory)
 
     class Meta:
         model = Caravan
 
 
-class CaravanMemberFactory(factory.django.DjangoModelFactory):
-    user = factory.SubFactory(UserFactory)
-    caravan = factory.SubFactory(CaravanFactory)
-    role = factory.Iterator(CaravanMember.Role.values)
+class CaravanMemberFactory(DjangoModelFactory):
+    user = SubFactory(UserFactory)
+    caravan = SubFactory(CaravanFactory)
+    role = Iterator(CaravanMember.Role.values)
 
     class Meta:
         model = CaravanMember
 
 
-class CaravanStopFactory(factory.django.DjangoModelFactory):
-    caravan = factory.SubFactory(CaravanFactory)
-    time = factory.Faker("date_time", tzinfo=timezone.get_current_timezone())
-    type = factory.Iterator(CaravanStop.Type.values)
+class CaravanStopFactory(DjangoModelFactory):
+    caravan = SubFactory(CaravanFactory)
+    time = Faker("date_time")
+    type = Iterator(CaravanStop.Type.values)
 
     class Meta:
         model = CaravanStop
 
 
-class CaravanStopLocationFactory(factory.django.DjangoModelFactory):
-    stop = factory.SubFactory(CaravanStopFactory)
-    street = factory.Faker("street_address")
-    city = factory.Faker("city")
-    state = factory.Faker("state")
-    country = factory.Faker("country")
-    latitude = factory.Faker("latitude")
-    longitude = factory.Faker("longitude")
+class CaravanStopLocationFactory(DjangoModelFactory):
+    stop = SubFactory(CaravanStopFactory)
+    street = Faker("street_address")
+    city = Faker("city")
+    state = Faker("state")
+    country = Faker("country")
+    latitude = Faker("latitude")
+    longitude = Faker("longitude")
 
     class Meta:
         model = CaravanStopLocation
